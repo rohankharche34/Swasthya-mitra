@@ -15,7 +15,7 @@ function HowItWorks() {
                 <Mic className="how-it-works-icon mb-3" />
                 <Card.Title className="h3">1. Describe Symptoms</Card.Title>
                 <Card.Text>
-                  Use our simple form or the **voice-enabled input** (via Web Speech API) to tell us how you're feeling.
+                  Use our simple form or the voice-enabled input (via Web Speech API) to tell us how you're feeling.
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -28,7 +28,7 @@ function HowItWorks() {
                 <SearchHeart className="how-it-works-icon mb-3" />
                 <Card.Title className="h3">2. Get Prediction</Card.Title>
                 <Card.Text>
-                  Our **ML model** (powered by Python) analyzes your symptoms to predict potential diseases.
+                  Our ML model (powered by Python) analyzes your symptoms to predict potential diseases.
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -41,7 +41,7 @@ function HowItWorks() {
                 <JournalMedical className="how-it-works-icon mb-3" />
                 <Card.Title className="h3">3. Receive Guidance</Card.Title>
                 <Card.Text>
-                  Get a clear list of **precautions and quick remedies** based on the prediction to help you feel better.
+                  Get a clear list of precautions and quick remedies based on the prediction to help you feel better.
                 </Card.Text>
               </Card.Body>
             </Card>
