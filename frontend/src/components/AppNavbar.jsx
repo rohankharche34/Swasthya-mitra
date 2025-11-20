@@ -23,7 +23,7 @@ function AppNavbar() {
     >
       <Container>
         <Navbar.Brand as={Link} to="/home">
-          🩺 **Swasthya Mitra**
+          🩺 Swasthya Mitra
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
