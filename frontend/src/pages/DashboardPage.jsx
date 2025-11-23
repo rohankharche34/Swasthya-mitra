@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Button, Card, Row, Col } from 'react-bootstrap';
 import { MicFill } from 'react-bootstrap-icons';
 
-function DashboardPage() {
+function DashboardPage({user}) {
   return (
     <Container className="py-5">
       <Row className="justify-content-center">

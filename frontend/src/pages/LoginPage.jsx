@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { HeartPulse } from 'react-bootstrap-icons';
 
-function LoginPage() {
+function LoginPage({setAuth}) {
+  const [gmail,setGmail]=useState("");
+  const[password,setPassword]=useState("");
+  let navigate=useNavigate();
+
+  // useEffect(()=>{
+  //   localStorage.removeItem("user");
+  //   localStorage.removeItem("token");
+  // },[]);
+
+  let handleLogin=()=>{
+    if (!gmail || !password) return;
+
+    
+    const token = btoa(gmail + ":" + password);
+    navigate("/home");
+    setAuth(token);
+    
+  }
   return (
     <div className="auth-page-wrapper">
       <Container>
@@ -24,17 +42,17 @@ function LoginPage() {
                   <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label>Email address</Form.Label>
-                      <Form.Control type="email" placeholder="Enter email" />
+                      <Form.Control type="email" placeholder="Enter email" onChange={(e)=>{setGmail(e.target.value)}} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                       <Form.Label>Password</Form.Label>
-                      <Form.Control type="password" placeholder="Password" />
+                      <Form.Control type="password" placeholder="Password" onChange={(e)=>{setPassword(e.target.value)}} />
                     </Form.Group>
                     
                     <div className="d-grid">
                       {/* This button now links to /home to simulate login */}
-                      <Button as={Link} to="/home" variant="primary" type="submit">
+                      <Button  variant="primary" type="submit" onClick={handleLogin}>
                         Login
                       </Button>
                     </div>

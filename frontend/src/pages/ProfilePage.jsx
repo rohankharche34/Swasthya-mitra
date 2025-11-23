@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import { Fade } from 'react-awesome-reveal';
 
-function ProfilePage() {
+function ProfilePage({user}) {
   return (
     <Container className="py-5">
       <Fade direction="down" triggerOnce>
@@ -20,8 +20,8 @@ function ProfilePage() {
                 style={{ width: '150px', height: '150px' }}
               />
               <Card.Body>
-                <Card.Title className="h4">John Doe</Card.Title>
-                <Card.Text className="text-muted">john.doe@example.com</Card.Text>
+                <Card.Title className="h4">{user.name}</Card.Title>
+                <Card.Text className="text-muted">{user.gmail}</Card.Text>
                 <Button variant="outline-primary" size="sm">Change Photo</Button>
               </Card.Body>
             </Card>
@@ -37,13 +37,13 @@ function ProfilePage() {
                     <Col md={6}>
                       <Form.Group className="mb-3" controlId="formFullName">
                         <Form.Label>Full Name</Form.Label>
-                        <Form.Control type="text" defaultValue="John Doe" />
+                        <Form.Control type="text" defaultValue={user.name} />
                       </Form.Group>
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-3" controlId="formEmail">
                         <Form.Label>Email Address</Form.Label>
-                        <Form.Control type="email" defaultValue="john.doe@example.com" />
+                        <Form.Control type="email" defaultValue={user.gmail} />
                       </Form.Group>
                     </Col>
                   </Row>
@@ -51,7 +51,7 @@ function ProfilePage() {
                     <Col md={6}>
                       <Form.Group className="mb-3" controlId="formBirthDate">
                         <Form.Label>Date of Birth</Form.Label>
-                        <Form.Control type="date" />
+                        <Form.Control type="text" defaultValue={user.dob} />
                       </Form.Group>
                     </Col>
                     <Col md={6}>
