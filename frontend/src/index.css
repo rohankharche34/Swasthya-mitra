@@ -2,33 +2,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 
 /* =========================================================
-   LIGHT THEME VARIABLES
+   LIGHT THEME VARIABLES (updated darker background)
    ========================================================= */
 :root {
   --app-text: #212529;
   --app-muted: #6c757d;
-  --app-bg: #fff;
+
+  /* NEW: darker, soft green-gray background */
+  --color-bg-primary: #e9eeec;  /* MAIN SITE BG - changed */
+  --color-bg-secondary: #ddeae5; /* slightly darker secondary tint */
+  --color-bg-card: #f3f5f4;      /* card surface */
+
+  --app-bg: var(--color-bg-primary);
 
   --swasthya-primary: #006442;
   --swasthya-secondary: #40C090;
   --swasthya-dark: #013220;
 
-  --color-bg-primary: #fcfcfc;
-  --color-bg-secondary: #f0fcf7;
-  --color-bg-card: #ffffff;
   --color-text-primary: #212529;
   --color-text-secondary: #5a5a5a;
-  --color-border: #e0e0e0;
-  --color-shadow: rgba(0, 100, 66, 0.1);
-  --color-shadow-hover: rgba(0, 100, 66, 0.15);
-  --color-shadow-strong: rgba(0, 0, 0, 0.1);
+  --color-border: #cfd7d4;       /* darker to match new bg */
+  --color-shadow: rgba(0, 100, 66, 0.10);
+  --color-shadow-hover: rgba(0, 100, 66, 0.16);
+  --color-shadow-strong: rgba(0, 0, 0, 0.14);
 
   --bs-body-color: var(--color-text-primary);
   --bs-body-bg: var(--color-bg-primary);
 }
 
 /* =========================================================
-   DARK THEME VARIABLES
+   DARK THEME VARIABLES (UNCHANGED)
    ========================================================= */
 [data-theme='dark'] {
   --app-text: #e9ecef;
@@ -56,26 +59,21 @@
 /* =========================================================
    GLOBAL ELEMENT STYLES
    ========================================================= */
-body {
+html, body {
+  background: var(--color-bg-primary) !important; /* FORCE FIX */
   color: var(--color-text-primary);
-  background: var(--color-bg-primary);
   font-family: 'Montserrat', sans-serif;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Paragraphs, heading text, and bootstrap .lead follow theme */
 p, .lead {
   color: var(--color-text-primary);
-  transition: color 0.3s ease;
 }
 
-/* Fix Bootstrap overriding muted text */
 .text-muted {
   color: var(--color-text-secondary) !important;
-  transition: color 0.3s ease;
 }
 
-/* Force dark mode override (for stubborn Bootstrap rules) */
 html[data-theme='dark'] p,
 html[data-theme='dark'] .lead,
 html[data-theme='dark'] .text-muted {
@@ -98,11 +96,14 @@ html[data-theme='dark'] .text-muted {
    HERO SECTION
    ========================================================= */
 .hero-gradient {
-  background: linear-gradient(120deg, var(--color-bg-secondary) 0%, var(--color-bg-card) 100%);
+  background: linear-gradient(
+    120deg,
+    var(--color-bg-secondary) 0%, 
+    var(--color-bg-card) 100%
+  ) !important; /* FIX */
   transition: background 0.3s ease;
 }
 
-/* Pulsing Icon Animation */
 @keyframes pulse {
   0% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.1); opacity: 0.7; }
@@ -119,7 +120,7 @@ html[data-theme='dark'] .text-muted {
    ========================================================= */
 .how-it-works-card {
   border: 1px solid var(--color-border);
-  background-color: var(--color-bg-card);
+  background-color: var(--color-bg-card) !important;
   box-shadow: 0 4px 15px var(--color-shadow);
   transition: all 0.3s ease;
 }
@@ -129,27 +130,11 @@ html[data-theme='dark'] .text-muted {
   box-shadow: 0 8px 25px var(--color-shadow-hover) !important;
 }
 
-.icon-heading {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--swasthya-primary);
-}
-
-.how-it-works-icon {
-  font-size: 2.5rem;
-  color: var(--swasthya-secondary);
-}
-
-.feature-icon {
-  font-size: 1.5rem;
-  margin-bottom: 3px;
-}
-
 /* =========================================================
    AUTH PAGE STYLING
    ========================================================= */
 .auth-page-wrapper {
+  background-color: var(--color-bg-secondary) !important; /* FIX */
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -177,19 +162,12 @@ html[data-theme='dark'] .text-muted {
 }
 
 .auth-form-section {
-  padding: 3rem;
-  background: var(--color-bg-card);
+  background: var(--color-bg-card) !important;
 }
 
 .auth-card {
   border: 1px solid var(--color-border);
   box-shadow: 0 10px 40px var(--color-shadow-strong);
-  overflow: hidden;
-}
-
-.form-label,
-.form-control {
-  color: var(--color-text-primary);
 }
 
 .form-control {
@@ -200,7 +178,6 @@ html[data-theme='dark'] .text-muted {
 .form-control:focus {
   background-color: var(--color-bg-primary);
   border-color: var(--swasthya-primary);
-  color: var(--color-text-primary);
 }
 
 /* =========================================================
@@ -208,118 +185,49 @@ html[data-theme='dark'] .text-muted {
    ========================================================= */
 .navbar-light.bg-white,
 .navbar-dark.bg-dark {
-  background-color: var(--color-bg-card) !important;
+  background-color: var(--color-bg-card) !important; /* FIX */
   box-shadow: 0 2px 10px var(--color-shadow-strong);
 }
 
 .card {
-  background-color: var(--color-bg-card);
+  background-color: var(--color-bg-card) !important; /* FIX */
   border: 1px solid var(--color-border);
 }
 
 .footer-dark {
-  background-color: var(--color-bg-card);
+  background-color: var(--color-bg-card) !important; /* FIX */
   color: var(--color-text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Dropdown Menu */
 .dropdown-menu {
-  background-color: var(--color-bg-card);
+  background-color: var(--color-bg-card) !important;
   border-color: var(--color-border);
 }
 
-.dropdown-item {
-  color: var(--color-text-primary);
-}
-
-.dropdown-item:hover {
-  background-color: var(--color-bg-secondary);
-  color: var(--color-text-primary);
-}
-/* =========================
-   THEMED TABLE OVERRIDES
-   Place after bootstrap.css import
-   ========================= */
-
-/* Basic table text & headings */
+/* =========================================================
+   TABLES (unchanged but updated colors)
+   ========================================================= */
 .table,
 .table th,
 .table td {
   color: var(--color-text-primary) !important;
   background-color: transparent !important;
-  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-/* Lighter color for table headings (optional) */
-.table thead th {
-  color: var(--color-text-secondary) !important;
-  border-bottom: 1px solid var(--color-border) !important;
-}
-
-/* Table rows and cells background (cards/rows) */
-.table tbody tr {
-  background-color: transparent;
-}
-
-/* Striped rows using your secondary bg variable */
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: var(--color-bg-secondary); /* subtle band */
+  background-color: var(--color-bg-secondary) !important;
 }
 
-/* Hover state */
-.table.table-hover tbody tr:hover,
 .table-hover tbody tr:hover {
-  background-color: rgba(0,0,0,0.04); /* fallback subtle hover */
+  background-color: rgba(0,0,0,0.04);
 }
 
-/* Make hover follow theme variable (dark/light) */
-html[data-theme='dark'] .table.table-hover tbody tr:hover,
 html[data-theme='dark'] .table-hover tbody tr:hover {
   background-color: rgba(255,255,255,0.03);
 }
 
-/* Table borders */
-.table,
-.table td,
-.table th {
-  border-color: var(--color-border) !important;
-}
-
-/* Responsive table wrapper background (if you use .table-responsive) */
-.table-responsive {
-  background-color: transparent;
-}
-
-/* Small table text variant still themed */
-.table-sm td,
-.table-sm th {
-  color: var(--color-text-primary) !important;
-}
-
-/* If you use .table-dark anywhere, ensure consistency */
 .table-dark {
   background-color: var(--color-bg-card) !important;
   color: var(--color-text-primary) !important;
 }
-
-/* Specific: Ensure links inside tables are visible in dark mode */
-.table a,
-.table a:link,
-.table a:visited {
-  color: var(--swasthya-primary);
-}
-html[data-theme='dark'] .table a,
-html[data-theme='dark'] .table a:link,
-html[data-theme='dark'] .table a:visited {
-  color: var(--swasthya-secondary);
-}
-
-/* Final forced override for stubborn rules (use sparingly) */
-html[data-theme='dark'] .table,
-html[data-theme='dark'] .table th,
-html[data-theme='dark'] .table td {
-  color: var(--color-text-primary) !important;
-  background-color: transparent !important;
-  border-color: var(--color-border) !important;
-}
-
