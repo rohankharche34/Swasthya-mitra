@@ -29,6 +29,9 @@
   --bs-body-color: var(--color-text-primary);
   --bs-body-bg: var(--color-bg-primary);
 }
+.btn-2{
+  margin: 0.5rem;
+}
 
 /* =========================================================
    DARK THEME VARIABLES (UNCHANGED)
@@ -104,6 +107,8 @@ html[data-theme='dark'] .text-muted {
   transition: background 0.3s ease;
 }
 
+
+
 @keyframes pulse {
   0% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.1); opacity: 0.7; }
@@ -163,6 +168,7 @@ html[data-theme='dark'] .text-muted {
 
 .auth-form-section {
   background: var(--color-bg-card) !important;
+  padding: 2rem;
 }
 
 .auth-card {
@@ -230,4 +236,15 @@ html[data-theme='dark'] .table-hover tbody tr:hover {
 .table-dark {
   background-color: var(--color-bg-card) !important;
   color: var(--color-text-primary) !important;
+}
+.suggestion-box {
+  background-color: var(--color-bg-secondary);
+  min-height: 60px;
+  border: 1px solid var(--color-border);
+}
+
+.result-box {
+  min-height: 300px;
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
 }
