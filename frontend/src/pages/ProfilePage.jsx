@@ -15,7 +15,7 @@ function ProfilePage({user}) {
             <Card className="text-center p-4">
               <Card.Img 
                 variant="top" 
-                src="https://via.placeholder.com/150" 
+                src={user.image} 
                 className="rounded-circle mx-auto" 
                 style={{ width: '150px', height: '150px' }}
               />

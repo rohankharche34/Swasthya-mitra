@@ -9,15 +9,17 @@ function SignupPage() {
   const[gmail,setGmail]=useState("");
   const[dob,setDob]=useState("");
   const[gender,setGender]=useState("");
+  const[image,setimage]=useState("");
+  const[loading,setLoading]=useState(false);
   const navigate=useNavigate();
 
   const handleSignup = () => {
-    if (!name || !gmail || !password || !dob||!gender) return;
+    if (!name || !gmail || !password || !dob||!gender || !image) return;
 
     fetch("http://localhost:8080/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name,gender,dob,gmail, password }),
+      body: JSON.stringify({ name,gender,dob,gmail, password,image }),
     })
       .then((res) => res.json())
       .then(() => {
@@ -26,6 +28,34 @@ function SignupPage() {
       })
       .catch((err) => console.log(err));
   };
+
+  const handleImgUpload= async (e)=>{
+
+    let file=e.target.files[0];
+
+    if(!file){
+       alert("upload correct file please");
+       return;
+    }
+    setLoading(true);
+    const form=new FormData();
+    form.append("file",file);
+    form.append("upload_preset", "profile_picture");
+    form.append("cloud_name","dniqgqg0i");
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/dniqgqg0i/image/upload`,
+      {
+        method: "POST",
+        body: form,
+      }
+    );
+    let data=await response.json();
+
+    setimage(data.secure_url);
+    
+    setLoading(false);
+
+  }
 
 
 
@@ -74,7 +104,15 @@ function SignupPage() {
                       <option value="Female">Female</option>
                       <option value="Prefer not to say">Prefer not to say</option>
                     </Form.Select>
+              
+                  
+                    <Form.Group className="mb-3" controlId="formBasicfile">
+                    <Form.Label>Profile Image: {(loading)?("uploading..."):("")}</Form.Label>
+                      <Form.Control type="file" placeholder="choose Image" onChange={handleImgUpload} />
+                    </Form.Group>
                     
+                    <br />
+
                     <div className="d-grid">
                        {/* This button also links to /home to simulate signup */}
                       <Button  variant="primary" type="button" onClick={handleSignup}>
