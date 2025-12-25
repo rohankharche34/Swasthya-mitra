@@ -186,6 +186,64 @@ html[data-theme='dark'] .text-muted {
   border-color: var(--swasthya-primary);
 }
 
+
+/* ==============================
+   SUGGESTION DROPDOWN STYLING
+================================*/
+.suggestion-box {
+  background-color: var(--color-bg-card);
+  border-radius: 12px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 10px 14px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  background: var(--color-bg-secondary);
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.suggestion-item:hover {
+  background-color: var(--swasthya-secondary);
+  color: white;
+}
+
+/* ==============================
+   SELECTED SYMPTOMS CHIPS
+================================*/
+.selected-symptoms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.symptom-chip {
+  background-color: var(--swasthya-primary);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  gap: 6px;
+}
+
+.chip-close {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-left: 6px;
+}
+
+.chip-close:hover {
+  color: #ffdddd;
+}
+
+
 /* =========================================================
    NAVBAR, FOOTER, CARDS
    ========================================================= */

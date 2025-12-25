@@ -35,6 +35,7 @@ function AppNavbar({ user, handleLogout }) {
             <Nav.Link as={Link} to="/dashboard" className="fw-bold">Symptom Checker</Nav.Link>
             <Nav.Link as={Link} to="/health-tips" className="fw-bold">Health Tips</Nav.Link>
             <Nav.Link as={Link} to="/reports" className="fw-bold">My Reports</Nav.Link>
+            <Nav.Link as={Link} to="/map" className="fw-bold">Nearest Hospitals</Nav.Link>
           </Nav>
 
           {/* Right side */}

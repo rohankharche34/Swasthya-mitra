@@ -10,12 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mapbox/polyline": "^1.2.1",
+    "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
+    "leaflet": "^1.9.4",
     "react": "^19.2.0",
     "react-awesome-reveal": "^4.3.1",
     "react-bootstrap": "^2.10.10",
     "react-bootstrap-icons": "^1.11.6",
     "react-dom": "^19.2.0",
+    "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.9.5",
     "react-speech-recognition": "^4.0.1"
   },

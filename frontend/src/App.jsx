@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPage';
 import HealthTipsPage from './pages/HealthTipsPage'; // <-- Import
 import ReportsPage from './pages/ReportsPage';       // <-- Import
 import ProfilePage from './pages/ProfilePage';       // <-- Import
+import HospitalMap from './components/HospitalMap';
 
 function App() {
   const [auth,setAuth]=useState(localStorage.getItem("token"));
@@ -84,6 +85,7 @@ function App() {
         <Route path="/profile" element={(auth && user)?(<ProfilePage user={user} />):(<Navigate to={"/login"}/>)} />       {/* <-- Add Route */}
         {/* Add a placeholder route for settings */}
         <Route path="/settings" element={(auth && user)?(<ProfilePage user={user}/>):(<Navigate to={"/login"}/>)} /> 
+        <Route path="/map" element={(auth && user)?(<HospitalMap/>):(<Navigate to={"/login"}/>)} /> 
       </Route>
     </Routes>
   );
