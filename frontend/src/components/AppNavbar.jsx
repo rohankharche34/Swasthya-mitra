@@ -5,7 +5,7 @@ import { PersonCircle } from 'react-bootstrap-icons';
 import ThemeToggleButton from './ThemeToggleButton';
 import { useTheme } from '../context/ThemeContext';
 
-function AppNavbar({ user, handleLogout }) {
+function AppNavbar({ user, handleLogout,roomId,handleConnectDoctor }) {
   const { theme } = useTheme();
 
   const effectiveTheme =
@@ -14,70 +14,73 @@ function AppNavbar({ user, handleLogout }) {
         ? 'dark'
         : 'light'
       : theme;
-
+  
   return (
     <Navbar
-      variant={effectiveTheme}
-      bg={effectiveTheme === 'dark' ? 'dark' : 'white'}
-      expand="lg"
-      sticky="top"
-      className="shadow-sm"
-    >
-      <Container>
-        <Navbar.Brand as={Link} to="/home">
-          🩺 <strong>Swasthya Mitra</strong>
-        </Navbar.Brand>
+  variant={effectiveTheme}
+  bg={effectiveTheme === 'dark' ? 'dark' : 'white'}
+  expand="lg"
+  sticky="top"
+  className="shadow-sm"
+>
+  
+  <Container fluid>
+    <Navbar.Brand as={Link} to="/home">
+      🩺 <strong>Swasthya Mitra</strong>
+    </Navbar.Brand>
 
-        <Navbar.Toggle />
-        <Navbar.Collapse>
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/home" className="fw-bold">Home</Nav.Link>
-            <Nav.Link as={Link} to="/dashboard" className="fw-bold">Symptom Checker</Nav.Link>
-            <Nav.Link as={Link} to="/health-tips" className="fw-bold">Health Tips</Nav.Link>
-            <Nav.Link as={Link} to="/reports" className="fw-bold">My Reports</Nav.Link>
-            <Nav.Link as={Link} to="/map" className="fw-bold">Nearest Hospitals</Nav.Link>
-          </Nav>
+    <Navbar.Toggle />
 
-          {/* Right side */}
-          <Nav className="align-items-center">
-            <ThemeToggleButton />
+    <Navbar.Collapse>
+    
+      <Nav className="me-auto">
+        <Nav.Link as={Link} to="/home" className="fw-bold">Home</Nav.Link>
+        <Nav.Link as={Link} to="/dashboard" className="fw-bold">Symptom Checker</Nav.Link>
+        <Nav.Link as={Link} to="/health-tips" className="fw-bold">Health Tips</Nav.Link>
+        <Nav.Link as={Link} to="/reports" className="fw-bold">My Reports</Nav.Link>
+        <Nav.Link as={Link} to="/map" className="fw-bold">Nearest Hospitals</Nav.Link>
+        <Nav.Link onClick={handleConnectDoctor} className="fw-bold">Connect to Doctor</Nav.Link>
+      </Nav>
 
-            <NavDropdown
-              title={<PersonCircle size={24} />}
-              align="end"
-              className="ms-2"
-            >
-              <NavDropdown.Header>
-                {user ? (
-                  <>
-                    {user.name} <br />
-                    <small className="text-muted">{user.gmail}</small>
-                  </>
-                ) : (
-                  <>
-                    Loading... <br />
-                  </>
-                )}
-              </NavDropdown.Header>
+      
+      <Nav className="align-items-center ms-auto">
+        <ThemeToggleButton />
 
-              <NavDropdown.Divider />
+        <NavDropdown
+          title={<PersonCircle size={24} />}
+          align="end"
+          className="ms-2"
+        >
+          <NavDropdown.Header>
+            {user ? (
+              <>
+                {user.name} <br />
+                <small className="text-muted">{user.gmail}</small>
+              </>
+            ) : (
+              <>Loading...</>
+            )}
+          </NavDropdown.Header>
 
-              <NavDropdown.Item as={Link} to="/profile">
-                View Profile
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/settings">
-                Settings
-              </NavDropdown.Item>
+          <NavDropdown.Divider />
 
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogout} as={Link} to="/login">
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+          <NavDropdown.Item as={Link} to="/profile">
+            View Profile
+          </NavDropdown.Item>
+          <NavDropdown.Item as={Link} to="/settings">
+            Settings
+          </NavDropdown.Item>
+
+          <NavDropdown.Divider />
+          <NavDropdown.Item onClick={handleLogout} as={Link} to="/login">
+            Logout
+          </NavDropdown.Item>
+        </NavDropdown>
+      </Nav>
+    </Navbar.Collapse>
+  </Container>
+</Navbar>
+
   );
 }
 

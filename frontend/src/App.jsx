@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -9,13 +9,17 @@ import HealthTipsPage from './pages/HealthTipsPage'; // <-- Import
 import ReportsPage from './pages/ReportsPage';       // <-- Import
 import ProfilePage from './pages/ProfilePage';       // <-- Import
 import HospitalMap from './components/HospitalMap';
+import VideoConference from './components/VideoConference';
+import { Nav } from 'react-bootstrap';
 
 function App() {
   const [auth,setAuth]=useState(localStorage.getItem("token"));
   const [user,setUser]=useState(JSON.parse(localStorage.getItem("user"))||null);
+  const [roomId,setRoomId]=useState(localStorage.getItem("roomjoinid"));
   // useEffect(()=>{
   //   localStorage.clear()
   // },[]);
+  const navigate=useNavigate();
   useEffect(()=>{
 
     let storedAuth=localStorage.getItem("token");
@@ -52,6 +56,18 @@ function App() {
     }
     
   },[auth]);
+ useEffect(() => {
+  const restoredId = localStorage.getItem("roomjoinid");
+  if(restoredId==null)localStorage.removeItem("roomjoinid");
+  if (restoredId) {
+    setRoomId(restoredId);
+  } else {
+    const newRoomId = Math.random().toString(36).substring(2, 10);
+    localStorage.setItem("roomjoinid", newRoomId);
+    setRoomId(newRoomId);
+  }
+}, [roomId]);
+
 
   let handleLogout=()=>{
     localStorage.removeItem("user");
@@ -59,7 +75,27 @@ function App() {
     setAuth(null);
     setUser(null);
   }
-
+  let handleLeave = () => {
+  localStorage.removeItem("roomjoinid");
+  setRoomId(null);
+  
+  // Navigate away first, then generate new room
+  
+  navigate("/home");
+  
+  
+}
+ let handleConnectDoctor = () => {
+    // Always generate a fresh room ID when connecting
+    const newRoomId = Math.random().toString(36).substring(2, 10);
+    localStorage.setItem("roomjoinid", newRoomId);
+    setRoomId(newRoomId);
+    
+    // Navigate to the new room
+    
+    navigate(`/room/${newRoomId}`);
+    window.location.reload();
+  }
 
 
   return (
@@ -75,7 +111,7 @@ function App() {
       <Route path='*' element={<Navigate to={"/login"}/>}/>
 
       {/* Routes WITH Navbar/Footer */}
-      <Route element={(auth && user)?(<MainLayout user={user} handleLogout={handleLogout} />):(<Navigate to={"/login"}/>)}>
+      <Route element={(auth && user)?(<MainLayout user={user} handleLogout={handleLogout} roomId={roomId} handleConnectDoctor={handleConnectDoctor} />):(<Navigate to={"/login"}/>)}>
         <Route path="/home" element={
           (auth && user)?
           (<HomePage />):(<Navigate to={"/login"}/>)} />
@@ -86,7 +122,10 @@ function App() {
         {/* Add a placeholder route for settings */}
         <Route path="/settings" element={(auth && user)?(<ProfilePage user={user}/>):(<Navigate to={"/login"}/>)} /> 
         <Route path="/map" element={(auth && user)?(<HospitalMap/>):(<Navigate to={"/login"}/>)} /> 
+        
       </Route>
+      <Route path="/room/:roomId" element={( auth && user)?(<VideoConference user={user} handleLeave={handleLeave}/>):(<Navigate to={"/login"}/>)} /> 
+      
     </Routes>
   );
 }

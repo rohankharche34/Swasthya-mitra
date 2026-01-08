@@ -306,3 +306,12 @@ html[data-theme='dark'] .table-hover tbody tr:hover {
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
 }
+.home-btn-wrapper {
+  position: sticky;
+  top: 0;
+
+  z-index: 10;
+  padding: 10px;
+  background: transparent;
+}
+

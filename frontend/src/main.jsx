@@ -11,11 +11,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  
     <BrowserRouter>
       <ThemeProvider> {/* <-- Wrap App */}
         <App />
       </ThemeProvider>
     </BrowserRouter>
-  </React.StrictMode>,
+  
 )
