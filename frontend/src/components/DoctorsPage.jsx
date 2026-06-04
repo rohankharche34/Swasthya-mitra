@@ -6,9 +6,12 @@ export default function DoctorsPage() {
     const [links,setLinks]=useState([]);
     const navigate=useNavigate();
 
+    // Use `process.env.REACT_APP_API_BASE_URL` if you created your app with Create React App.
+    // If you are using Vite, change this to `import.meta.env.VITE_API_BASE_URL`
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
     useEffect(()=>{
-        fetch("http://localhost:8080/api/getlink",{
+        fetch(`${API_BASE_URL}/api/getlink`,{
             headers:{
                         Authorization: "Basic " + localStorage.getItem("token"),
                     }, 
@@ -25,7 +28,7 @@ export default function DoctorsPage() {
         navigate(`/room/${rid}`);
     }
     const handleComplete=(id)=>{
-         fetch(`http://localhost:8080/api/deletelink/${id}`, {
+         fetch(`${API_BASE_URL}/api/deletelink/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: "Basic " + localStorage.getItem("token"),

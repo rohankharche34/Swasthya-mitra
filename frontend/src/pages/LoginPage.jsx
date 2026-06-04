@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { HeartPulse } from 'react-bootstrap-icons';
 
 function LoginPage({setAuth}) {
   const [gmail,setGmail]=useState("");
   const[password,setPassword]=useState("");
+  const [loading, setLoading] = useState(false);
   let navigate=useNavigate();
 
   // useEffect(()=>{
@@ -13,17 +14,36 @@ function LoginPage({setAuth}) {
   //   localStorage.removeItem("token");
   // },[]);
 
-  let handleLogin=()=>{
-    if (!gmail || !password) return;
+  let handleLogin = async (e) => {
+  e.preventDefault();
 
-    
+  if (!gmail || !password) return;
+
+  try {
+    setLoading(true);
+
+    // simulate API
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     const token = btoa(gmail + ":" + password);
-    navigate("/home");
+
     setAuth(token);
-    
+
+    navigate("/home");
+  } catch (err) {
+    console.log(err);
+  } finally {
+    setLoading(false);
   }
+};
   return (
-    <div className="auth-page-wrapper">
+    <>
+      {loading && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.4)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
+        </div>
+      )}
+      <div className="auth-page-wrapper" style={{ filter: loading ? 'blur(4px)' : 'none',  pointerEvents: loading ? 'none' : 'auto' }}>
       <Container>
         <Row className="justify-content-center">
           <Col md={10} lg={8}>
@@ -39,7 +59,7 @@ function LoginPage({setAuth}) {
                 
                 <Col md={6} className="auth-form-section">
                   <h3 className="text-center mb-4 fw-bold">User Login</h3>
-                  <Form>
+                  <Form onSubmit={handleLogin}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label>Email address</Form.Label>
                       <Form.Control type="email" placeholder="Enter email" onChange={(e)=>{setGmail(e.target.value)}} />
@@ -52,7 +72,7 @@ function LoginPage({setAuth}) {
                     
                     <div className="d-grid">
                       {/* This button now links to /home to simulate login */}
-                      <Button  variant="primary" type="submit" onClick={handleLogin}>
+                      <Button  variant="primary" type="submit">
                         Login
                       </Button>
                     </div>
@@ -68,7 +88,8 @@ function LoginPage({setAuth}) {
           </Col>
         </Row>
       </Container>
-    </div>
+      </div>
+    </>
   );
 }
 

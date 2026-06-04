@@ -22,6 +22,9 @@ function App() {
   //   localStorage.clear()
   // },[]);
   const navigate=useNavigate();
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+
   useEffect(()=>{
 
     let storedAuth=localStorage.getItem("token");
@@ -34,7 +37,7 @@ function App() {
     }
 
     if(storedAuth && !storedUser){
-      fetch("http://localhost:8080/api/login",{
+      fetch(`${API_BASE_URL}/api/login`,{
         headers: {
         "Authorization": "Basic " + storedAuth
       }
@@ -101,7 +104,7 @@ function App() {
     meetingLink:newRoomId
     };
 
-    fetch("http://localhost:8080/api/savelink", {
+    fetch(`${API_BASE_URL}/api/savelink`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

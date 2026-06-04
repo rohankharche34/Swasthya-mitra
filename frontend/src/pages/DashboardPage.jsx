@@ -20,6 +20,7 @@ function DashboardPage({user}) {
   const [showResult, setShowResult] = useState(false);
   const [activeTab, setActiveTab] = useState("disease");
   const [predicted, setPredicted] = useState(false);
+  const ML_API_BASE_URL = import.meta.env.VITE_ML_API_BASE_URL || "http://localhost:5000";
 
 
 
@@ -251,7 +252,7 @@ useEffect(() => {
   setPrediction("");
 
   try {
-    const res = await fetch("http://127.0.0.1:5000/predict", {
+    const res = await fetch(`${ML_API_BASE_URL}/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ symptoms: selectedSymptoms })

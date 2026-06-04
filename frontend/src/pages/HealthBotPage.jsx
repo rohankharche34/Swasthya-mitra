@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Card, Form, Button, ListGroup, Badge } from 'react-bootstrap';
-import { Robot, User, Send, Trash } from 'react-bootstrap-icons';
+import { Robot, Person, Send, Trash } from 'react-bootstrap-icons';
 
 function HealthBotPage({ user }) {
   const [messages, setMessages] = useState([
@@ -10,6 +10,8 @@ function HealthBotPage({ user }) {
   const [loading, setLoading] = useState(false);
   const [sessionId] = useState(() => `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   const messagesEndRef = useRef(null);
+
+  const HEALTHBOT_API_BASE_URL = import.meta.env.VITE_HEALTHBOT_API_BASE_URL || "http://localhost:8000";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -28,7 +30,7 @@ function HealthBotPage({ user }) {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/chat', {
+      const response = await fetch(`${HEALTHBOT_API_BASE_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -115,7 +117,7 @@ function HealthBotPage({ user }) {
                   </div>
                   {msg.role === 'user' && (
                     <div className="bg-secondary rounded-circle d-flex align-items-center justify-content-center ms-2" style={{ width: 36, height: 36, flexShrink: 0 }}>
-                      <User size={20} className="text-white" />
+                      <Person size={20} className="text-white" />
                     </div>
                   )}
                 </div>

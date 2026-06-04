@@ -22,8 +22,8 @@ export default function VideoConference({user, handleLeave}) {
         zpInstanceRef.current = null;
       }
 
-      const appID = 1034893946;
-      const serverSecret = "98cdadca0b8f0886d6b1c1c556c6f661";
+      const appID = 1142539849;
+      const serverSecret = "134a18241c7b77609c58f2062ec07fda";
 
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appID,

@@ -7,9 +7,12 @@ import main.app.Backend.Services.LinkService;
 import main.app.Backend.Services.UserDetailService;
 import main.app.Backend.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +29,29 @@ public class Controller {
     private LinkService linkService;
 
     @PostMapping("/signup")
-    public UserDetailsEntity saving(@RequestBody UserDetailsEntity userDetailsEntity){
+    public ResponseEntity<?> saving(@RequestBody UserDetailsEntity userDetailsEntity){
+        Optional<UserEntity> existingUser = userService.findByGmail(userDetailsEntity.getGmail());
+        if (existingUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Collections.singletonMap("message", "User already exists with this email"));
+        }
+
         UserEntity user=new UserEntity(userDetailsEntity.getName(),userDetailsEntity.getGmail(),userDetailsEntity.getPassword(),"user");
         userService.saveUser(user);
         userDetailsEntity.setType("user");
-        return userDetailService.saveUserDetails(userDetailsEntity);
+        UserDetailsEntity savedUser = userDetailService.saveUserDetails(userDetailsEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @GetMapping("/login")
-    public Map<String,Object> logins(Authentication authentication){
+    public ResponseEntity<?> logins(Authentication authentication){
         Optional<UserDetailsEntity> user=userDetailService.findByGmail(authentication.getName());
+        
+        if (!user.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("message", "User not found"));
+        }
+        
         Map<String ,Object> map=new HashMap<>();
         map.put("name",user.get().getName());
         map.put("gmail",user.get().getGmail());
@@ -44,7 +60,7 @@ public class Controller {
         map.put("image",user.get().getImage());
         map.put("type",user.get().getType());
         System.out.println(user);
-        return map;
+        return ResponseEntity.ok(map);
     }
     @PutMapping("/update")
     public UserDetailsEntity update(Authentication authentication,@RequestBody UserDetailsEntity userDetailsEntity){

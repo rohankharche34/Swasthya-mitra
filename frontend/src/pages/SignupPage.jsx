@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { HeartPulse } from 'react-bootstrap-icons';
 
@@ -13,20 +13,39 @@ function SignupPage() {
   const[loading,setLoading]=useState(false);
   const navigate=useNavigate();
 
-  const handleSignup = () => {
-    if (!name || !gmail || !password || !dob||!gender || !image) return;
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://swasthya-mitra-g7v7.onrender.com";
 
-    fetch("http://localhost:8080/api/signup", {
+  const handleSignup = () => {
+    console.log(API_BASE_URL);
+    if (!name || !gmail || !password || !dob||!gender || !image) {
+      alert("Please fill out all the fields and upload a profile image.");
+      return;
+    }
+
+    setLoading(true);
+
+    fetch(`${API_BASE_URL}/api/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name,gender,dob,gmail, password,image }),
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Signup failed");
+        }
+        return data;
+      })
       .then(() => {
+        setLoading(false);
         alert("Signup successful! Please login.");
         navigate("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+        alert(err.message);
+      });
   };
 
   const handleImgUpload= async (e)=>{
@@ -60,7 +79,13 @@ function SignupPage() {
 
 
   return (
-    <div className="auth-page-wrapper">
+    <>
+      {loading && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.4)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
+        </div>
+      )}
+      <div className="auth-page-wrapper" style={{ filter: loading ? 'blur(4px)' : 'none', transition: 'filter 0.3s ease', pointerEvents: loading ? 'none' : 'auto' }}>
       <Container>
         <Row className="justify-content-center">
           <Col md={10} lg={8}>
@@ -131,7 +156,8 @@ function SignupPage() {
           </Col>
         </Row>
       </Container>
-    </div>
+      </div>
+    </>
   );
 }
 

@@ -10,6 +10,9 @@ function ProfilePage({user}) {
     gender: user.gender,
     image: user.image
   });
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://swasthya-mitra-g7v7.onrender.com";
+
   const handleChange = (e) => {
   setFormData({
     ...formData,
@@ -20,7 +23,7 @@ function ProfilePage({user}) {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const res = await fetch("http://localhost:8080/api/update", {
+  const res = await fetch(`${API_BASE_URL}/api/update`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

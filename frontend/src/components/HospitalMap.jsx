@@ -70,28 +70,26 @@ function HospitalMap() {
 
 
   useEffect(() => {
-    if (!currentLocation) return;
+  if (!currentLocation) return;
 
-    const fetchHospitals = async () => {
-      const query = `
-        [out:json];
-        (
-          node["amenity"="hospital"](around:50000,${currentLocation.lat},${currentLocation.lng});
-          way["amenity"="hospital"](around:50000,${currentLocation.lat},${currentLocation.lng});
-        );
-        out center;
-      `;
+  const fetchHospitals = async () => {
+  const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+    params: {
+      q: "hospital",
+      format: "json",
+      lat: currentLocation.lat,
+      lon: currentLocation.lng,
+      viewbox: `${currentLocation.lng - 0.1},${currentLocation.lat + 0.1},${currentLocation.lng + 0.1},${currentLocation.lat - 0.1}`,
+      bounded: 1,
+      limit: 20,
+    },
+   
+  });
+  setHospitals(response.data);
+};
 
-      const response = await axios.post(
-        "https://overpass-api.de/api/interpreter",
-        query
-      );
-
-      setHospitals(response.data.elements);
-    };
-
-    fetchHospitals();
-  }, [currentLocation]);
+  fetchHospitals();
+}, [currentLocation]);
 
   const getRoute = async (destLat, destLng) => {
   if (!currentLocation) {
@@ -167,25 +165,25 @@ function HospitalMap() {
         )}
 
         {hospitals.map((h, i) => {
-          const lat = h.lat || h.center?.lat;
-          const lng = h.lon || h.center?.lon;
-          if (!lat || !lng) return null;
+  const lat = parseFloat(h.lat);
+  const lng = parseFloat(h.lon);
+  if (!lat || !lng) return null;
 
-          return (
-            <Marker
-              key={i}
-              position={[lat, lng]}
-              icon={hospitalIcon}
-              eventHandlers={{
-                click: () => getRoute(lat, lng),
-              }}
-            >
-              <Popup>
-                <b>{h.tags?.name || "Hospital"}</b>
-              </Popup>
-            </Marker>
-          );
-        })}
+  return (
+    <Marker
+      key={i}
+      position={[lat, lng]}
+      icon={hospitalIcon}
+      eventHandlers={{
+        click: () => getRoute(lat, lng),
+      }}
+    >
+      <Popup>
+        <b>{h.display_name?.split(",")[0] || "Hospital"}</b>
+      </Popup>
+    </Marker>
+  );
+})}
 
        {route.length > 0 && (
       <Polyline
