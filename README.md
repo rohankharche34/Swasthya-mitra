@@ -2,6 +2,8 @@
 
 Swasthya Mitra is an intelligent health-tech web application designed to assist users with symptom-based disease prediction, preliminary precautionary measures, and reliable medical guidance. With an integrated machine learning engine, a robust Java-based backend, a highly interactive React frontend, and a sophisticated FastAPI-based HealthBot microservice, Swasthya Mitra aims to provide an accessible and comprehensive health advisory platform.
 
+Live at: https://swasthya-mitra-pi.vercel.app/
+
 ## 📊 By The Numbers (Quantitative Highlights)
 
 Our system's intelligence and breadth are backed by a robust dataset and a meticulously crafted rule engine:
