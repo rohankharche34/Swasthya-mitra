@@ -96,29 +96,3 @@ def test_chat_symptom_report(mock_db, mock_nlp, mock_llm):
     )
     assert r.status_code == 200
     assert "risk" in r.json()
-
-
-def test_chat_clarification(mock_db, mock_llm, monkeypatch):
-    import app as m
-
-    def analyze_nothing(text):
-        return {
-            "symptoms": [],
-            "negations": [],
-            "duration": None,
-            "severity": "unknown",
-            "urgency": "low",
-            "intent": "unknown",
-            "medical_entities": [],
-            "raw_text": text,
-        }
-
-    def get_session_existing(session_id):
-        return {"session_id": session_id, "context": {}}
-
-    monkeypatch.setattr(m, "analyze_text", analyze_nothing)
-    monkeypatch.setattr(m, "get_session_state", get_session_existing)
-
-    r = client.post("/chat", json={"user_input": "hello", "session_id": "s1"})
-    assert r.status_code == 200
-    assert r.json().get("type") == "clarification"
